@@ -6,7 +6,9 @@ import {
   Text,
   View,
   Modal,
-  TextInput
+  TextInput,
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 
 import styles from './assets/css/Styles.styles'
@@ -14,14 +16,46 @@ import styles from './assets/css/Styles.styles'
 const App: () => Node = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [todoString, setTodoString] = useState(null);
+  const [todoItemTitle, setTodoItemTitle] = useState('');
+  const [todoList, setTodoList] = useState([]);
 
-  onChangeText = (data) => { setTodoString(data) };
+  const onChangeText = (data) => { setTodoItemTitle(data) };
+  const modalOnClose = () => { setModalVisible(false) }
+  const modalOnOpen = () => { setModalVisible(true) }
+  const addTodoList = () => {
+    let list = todoList;
+    let obj = { id: list.length + 1, title: todoItemTitle, selected: false }
+    list.push(obj);
+    setTodoList(list);
+    setTodoItemTitle('');
+    modalOnClose();
+  }
+  const todoListRowClick = (item) => {
+    console.log("dene")
+    let newList = todoList.map(data => {
+      if (data.id == item.id)
+        data.selected = !data.selected;
+
+      return data;
+    })
+    setTodoList(newList);
+  }
+
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity onClick={todoListRowClick(item)}>
+        <View style={styles.item}>
+          <Text style={item.selected ? styles.underlined : ""} >{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  };
+  const keyExtractor = (data) => `${data.id}`;
 
   return (
     <SafeAreaView style={styles.container} >
 
-      {/*  */}
+      {/* Modal start */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -42,16 +76,14 @@ const App: () => Node = () => {
               <TextInput
                 style={styles.textInput}
                 onChangeText={onChangeText}
-                value={todoString}
+                value={todoItemTitle}
               />
             </View>
 
             <View style={styles.modalFooter}>
               <Pressable
                 style={[styles.button, styles.secondary]}
-                onPress={() => {
-                  setModalVisible(false)
-                }}
+                onPress={modalOnClose}
               >
                 <Text style={styles.textStyle}>Cancel</Text>
               </Pressable>
@@ -59,9 +91,7 @@ const App: () => Node = () => {
 
               <Pressable
                 style={[styles.button, styles.primary]}
-                onPress={() => {
-                  setModalVisible(!modalVisible)
-                }}
+                onPress={addTodoList}
               >
                 <Text style={styles.textStyle}>Add</Text>
               </Pressable>
@@ -71,15 +101,21 @@ const App: () => Node = () => {
         </View>
       </Modal>
 
+      <View style={styles.flatListView}>
+        <FlatList
+          style={styles.flatList}
+          data={todoList}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+      </View>
 
 
 
       <View style={styles.addButtonView}>
         <Pressable
           style={[styles.button, styles.primary]}
-          onPress={() => {
-            setModalVisible(!modalVisible)
-          }}
+          onPress={modalOnOpen}
         >
           <Text style={styles.textStyle}>Add ToDo</Text>
         </Pressable>

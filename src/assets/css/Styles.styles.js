@@ -3,8 +3,6 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   modal_container: {
     flex: 1,
@@ -74,8 +72,8 @@ export default StyleSheet.create({
     textAlign: "center"
   },
   textInput: {
-    minHeight:30,
-    width: '80%',
+    minHeight: 30,
+    width: '60%',
     borderStyle: "dashed",
     borderWidth: 1,
     borderColor: '#00000012',
@@ -85,5 +83,22 @@ export default StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+  flatListView: {
+    flex: 1,
+    margin:10,
+  },
+  flatList: { 
+    flex: 1,
+    borderWidth: 1,
+    borderColor:'#00000012',
+  },
+  item:{
+    padding:10,
+    width:"100%",
+    backgroundColor: "#a0e",
+    borderBottomWidth:1,
+    borderBottomColor: '#00000012',
+  },
+  underlined: {textDecorationLine: 'underline'}
 });
