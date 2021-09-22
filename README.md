@@ -1,0 +1,2 @@
+# patikaToDoDD
+Alıştırmalar
