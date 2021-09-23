@@ -86,19 +86,22 @@ export default StyleSheet.create({
   },
   flatListView: {
     flex: 1,
-    margin:10,
+    margin: 10,
   },
-  flatList: { 
+  flatList: {
     flex: 1,
     borderWidth: 1,
-    borderColor:'#00000012',
+    borderColor: '#00000012',
   },
-  item:{
-    padding:10,
-    width:"100%",
+  item: {
+
+    padding: 10,
+    width: "100%",
+    flexDirection:'row',
     backgroundColor: "#a0e",
-    borderBottomWidth:1,
+    borderBottomWidth: 1,
     borderBottomColor: '#00000012',
   },
-  underlined: {textDecorationLine: 'underline'}
+  lineThrough: { textDecorationLine: 'line-through' },
+  selectedBg: { backgroundColor: "#a9e", }
 });

@@ -8,7 +8,9 @@ import {
   Modal,
   TextInput,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableHighlight,
+  Alert
 } from 'react-native';
 
 import styles from './assets/css/Styles.styles'
@@ -23,29 +25,28 @@ const App: () => Node = () => {
   const modalOnClose = () => { setModalVisible(false) }
   const modalOnOpen = () => { setModalVisible(true) }
   const addTodoList = () => {
-    let list = todoList;
-    let obj = { id: list.length + 1, title: todoItemTitle, selected: false }
-    list.push(obj);
-    setTodoList(list);
+    let obj = { id: `${todoList.length + 1}`, title: todoItemTitle, selected: false }
+    setTodoList([...todoList, obj]);
     setTodoItemTitle('');
     modalOnClose();
   }
-  const todoListRowClick = (item) => {
-    console.log("dene")
-    let newList = todoList.map(data => {
-      if (data.id == item.id)
+  const todoListRowClick = (id) => {
+    let arr = [];
+    todoList.map(data => {
+      if (data.id == id)
         data.selected = !data.selected;
 
-      return data;
-    })
-    setTodoList(newList);
+      arr.push(data);
+    });
+    setTodoList(arr);
   }
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onClick={todoListRowClick(item)}>
-        <View style={styles.item}>
-          <Text style={item.selected ? styles.underlined : ""} >{item.title}</Text>
+      <TouchableOpacity onPress={() => { todoListRowClick(item.id) }}>
+        <View style={item.selected ? [styles.item, styles.selectedBg] : styles.item}>
+          <Text>{item.selected ? '✓ ' : ''}</Text>
+          <Text style={item.selected ? styles.lineThrough : ""} >{item.title}</Text>
         </View>
       </TouchableOpacity>
     )
